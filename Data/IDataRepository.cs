@@ -9,5 +9,10 @@ namespace qAndA.Data
         QuestionGetSingleResponse GetQuestion(int Id);
         bool QuestionExists(int Id);
         AnswerGetResponse GetAnswer(int id);
+        QuestionGetSingleResponse PostQuestion(QuestionPostRequest question); 
+        QuestionGetSingleResponse PutQuestion(int questionId, QuestionPutRequest question);
+        void DeleteQuestion(int questionId);
+        AnswerGetResponse PostAnswer(AnswerPostRequest answer);
+
     }
 }

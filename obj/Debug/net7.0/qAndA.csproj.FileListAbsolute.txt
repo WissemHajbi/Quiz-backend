@@ -65,3 +65,7 @@ C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\obj\Debug\net7.0\refint\q
 C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\obj\Debug\net7.0\qAndA.pdb
 C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\obj\Debug\net7.0\qAndA.genruntimeconfig.cache
 C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\obj\Debug\net7.0\ref\qAndA.dll
+C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\dbup-core.dll
+C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\dbup-sqlserver.dll
+C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\Microsoft.Azure.Services.AppAuthentication.dll
+C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\Microsoft.IdentityModel.Clients.ActiveDirectory.dll

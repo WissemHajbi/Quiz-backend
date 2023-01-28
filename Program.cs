@@ -1,4 +1,24 @@
+using System.Reflection;
+using DbUp;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Dbup setup
+var connectionString =
+        args.FirstOrDefault()
+        ?? "Server=(localdb)\\MSSQLLocalDB; Database=QandA; Trusted_connection=true";
+
+var upgrader =
+        DeployChanges.To
+            .SqlDatabase(connectionString)
+            .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+            .LogToConsole()
+            .Build();
+
+if(upgrader.IsUpgradeRequired()){
+    upgrader.PerformUpgrade();
+}
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
