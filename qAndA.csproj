@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Controllers\Questions2Controller.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="SQLScripts\01-Tables.sql" />
     <None Remove="SQLScripts\02-Sprocs.sql" />
   </ItemGroup>

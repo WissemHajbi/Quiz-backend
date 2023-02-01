@@ -5,10 +5,8 @@ using qAndA.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Dbup setup
-var connectionString =
-        args.FirstOrDefault()
-        ?? "Server=(localdb)\\MSSQLLocalDB; Database=QandA; Trusted_connection=true";
-
+var connectionString ="Server=(localdb)\\MSSQLLocalDB; Database=QandA; Trusted_connection=true";
+EnsureDatabase.For.SqlDatabase(connectionString);
 var upgrader =
         DeployChanges.To
             .SqlDatabase(connectionString)
@@ -49,5 +47,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Questions}/{action=GetQuestions}");
 
 app.Run();

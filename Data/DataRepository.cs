@@ -10,8 +10,9 @@ namespace qAndA.Data
 
         public DataRepository(IConfiguration config)
         {
-            _connectionString = config["ConnectionString:DefaultConnection"];
+            _connectionString = config.GetConnectionString("DefaultConnection");
         }
+        
         public AnswerGetResponse GetAnswer(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
