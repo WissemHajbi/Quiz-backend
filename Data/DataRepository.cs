@@ -28,7 +28,7 @@ namespace qAndA.Data
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var q = connection.QueryFirstOrDefault<QuestionGetSingleResponse>(@"EXEC dbo.Question_GetSingle @QuesitonId = @QuestionId", new { QuestionId = Id });
+                var q = connection.QueryFirstOrDefault<QuestionGetSingleResponse>(@"EXEC dbo.Question_GetSingle @QuestionId = @QuestionId", new { QuestionId = Id });
                 if (q != null)
                 {
                     q.Answers = connection.Query<AnswerGetResponse>(@"EXEC dbo.Answer_Get_ByQuestionId @QuestionId = @QuestionId", new { QuestionId = Id });
@@ -69,7 +69,7 @@ namespace qAndA.Data
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                return connection.QueryFirst<bool>(@"EXEC dbo.Question_Exists @QuesitonId = @QuestionId", new { QuestionId = Id });
+                return connection.QueryFirst<bool>(@"EXEC dbo.Question_Exists @QuestionId = @QuestionId", new { QuestionId = Id });
             }
         }
 
