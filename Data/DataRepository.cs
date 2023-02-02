@@ -46,6 +46,19 @@ namespace qAndA.Data
             }
         }
 
+        public IEnumerable<QuestionGetManyResponse> GetQuestionsWithAnswers()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var questions = connection.Query<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany");
+                foreach(var question in questions){
+                    question.answers = connection.Query<AnswerGetResponse>(@"EXEC dbo.Answer_Get_ByQuestionId @QuestionId = @QuestionId", new {QuestionId = question.QuestionId}).ToList();
+                }    
+                return questions;
+            }
+        }
+
         public IEnumerable<QuestionGetManyResponse> GetQuestionsBySearch(string search)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -73,7 +86,7 @@ namespace qAndA.Data
             }
         }
 
-        public QuestionGetSingleResponse PostQuestion(QuestionPostRequest question){
+        public QuestionGetSingleResponse PostQuestion(QuestionPostFullRequest question){
             using(var connection = new SqlConnection(_connectionString)) {
                 connection.Open();
                 var questionId = connection.QueryFirst<int>(@"EXEC dbo.Question_Post @Title = @Title, @Content = @Content, @UserId = @UserId, @UserName = @UserName, @Created = @Created",question);
@@ -96,7 +109,7 @@ namespace qAndA.Data
             }
         }
 
-        public AnswerGetResponse PostAnswer(AnswerPostRequest answer){
+        public AnswerGetResponse PostAnswer(AnswerPostFullRequest answer){
             using(var connection = new SqlConnection(_connectionString)){
                 connection.Open();
                 return connection.QueryFirst<AnswerGetResponse>(@"EXEC dbo.Answer_Post @QuestionId = @QuestionId, @Content = @Content, @UserId = @UserId, @UserName = @UserName, @Created = @Created", answer);

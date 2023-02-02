@@ -16,9 +16,10 @@ namespace qAndA.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<QuestionGetManyResponse> GetQuestions([FromQuery]string search="") {
+        public IEnumerable<QuestionGetManyResponse> GetQuestions(bool answers,[FromQuery]string search="") {
             if(string.IsNullOrEmpty(search)){
-                return _dataRepository.GetQuestions();
+                if(answers) return _dataRepository.GetQuestionsWithAnswers();
+                else return _dataRepository.GetQuestions();
             }else{
                 return _dataRepository.GetQuestionsBySearch(search);
             }
@@ -41,7 +42,13 @@ namespace qAndA.Controllers
 
         [HttpPost]
         public ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest _question){
-            var question = _dataRepository.PostQuestion(_question);
+            var question = _dataRepository.PostQuestion(new QuestionPostFullRequest{
+                Title = _question.Title,
+                Content = _question.Content,
+                UserId = "1",
+                Username = "wissem",
+                Created = DateTime.UtcNow,
+            });
             return CreatedAtAction(nameof(GetQuestion),new{questionId = question.QuestionId},question);
         }
 
@@ -72,8 +79,15 @@ namespace qAndA.Controllers
             if(!question) {
                 return NotFound();
             }
-            _answer.QuestionId = questionId;
-            return _dataRepository.PostAnswer(_answer);
+            return _dataRepository.PostAnswer(
+                new AnswerPostFullRequest{
+                    QuestionId = questionId,
+                    Content = _answer.Content,
+                    UserId = "1",
+                    Username = "wissem",
+                    Created = DateTime.UtcNow,
+                }
+            );
         }
     }
 }

@@ -9,4 +9,4 @@ namespace qAndA.Data.Models {
         [Required(ErrorMessage = "please enter the content")]
         public string Content { get; set; }
     }
-}
+}   
