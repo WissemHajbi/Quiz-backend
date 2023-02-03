@@ -1,6 +1,7 @@
 using System.Reflection;
 using DbUp;
 using qAndA.Data;
+using qAndA.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +23,14 @@ if(upgrader.IsUpgradeRequired()){
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// registering the DataRepository for dependency injection
-builder.Services.AddScoped<IDataRepository, DataRepository>();
 // Scoped = generate one instance for the whole request
 // Transient = generate one instance each time it is requested 
 // Singleton = generate one instanec for the whole app
+
+// registering the DataRepository for dependency injection
+builder.Services.AddSingleton<IQuestionCache, QuestionCache>();
+builder.Services.AddScoped<IDataRepository, DataRepository>();
+
 
 
 var app = builder.Build();

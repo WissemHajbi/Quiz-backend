@@ -10,16 +10,19 @@ namespace qAndA.Controllers
     [ApiController]
     public class QuestionsController: ControllerBase {
         private readonly IDataRepository _dataRepository;
-        public QuestionsController(IDataRepository DR)
+        private readonly IQuestionCache _cache;
+
+        public QuestionsController(IDataRepository DR, IQuestionCache QC)
         {
             _dataRepository = DR;
+            _cache = QC;
         }
 
         [HttpGet]
-        public IEnumerable<QuestionGetManyResponse> GetQuestions(bool answers,[FromQuery]string search="") {
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsAsync(bool answers,[FromQuery]string search="") {
             if(string.IsNullOrEmpty(search)){
                 if(answers) return _dataRepository.GetQuestionsWithAnswers();
-                else return _dataRepository.GetQuestions();
+                else return await _dataRepository.GetQuestionsAsync();
             }else{
                 return _dataRepository.GetQuestionsBySearch(search);
             }
@@ -32,12 +35,15 @@ namespace qAndA.Controllers
 
         [HttpGet("{questionId}")]
         public ActionResult<QuestionGetSingleResponse> GetQuestion(int questionId){
-            var question = _dataRepository.GetQuestion(questionId);
+            var question = _cache.Get(questionId);
+
             if(question == null) {
-                return NotFound();
-            }else{
-                return question;
+                question = _dataRepository.GetQuestion(questionId);
+                if(question == null) return NotFound();
+                _cache.set(question);
             }
+
+            return question;
         }
 
         [HttpPost]
@@ -60,6 +66,7 @@ namespace qAndA.Controllers
             }
             _question.Title = string.IsNullOrEmpty(_question.Title) ? question.Title : _question.Title;
             _question.Content = string.IsNullOrEmpty(_question.Content) ? question.Content : _question.Content;
+            _cache.remove(questionId);
             return _dataRepository.PutQuestion(questionId, _question);
         }
 
@@ -69,6 +76,7 @@ namespace qAndA.Controllers
             if(exists == false){
                 return NotFound();
             }
+            _cache.remove(questionId);
             _dataRepository.DeleteQuestion(questionId);
             return NoContent();
         }
@@ -79,6 +87,7 @@ namespace qAndA.Controllers
             if(!question) {
                 return NotFound();
             }
+            _cache.remove(questionId);
             return _dataRepository.PostAnswer(
                 new AnswerPostFullRequest{
                     QuestionId = questionId,

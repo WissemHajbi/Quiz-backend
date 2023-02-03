@@ -3,7 +3,7 @@ namespace qAndA.Data
 {
     public interface IDataRepository
     {
-        IEnumerable<QuestionGetManyResponse> GetQuestions();
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsAsync();
         IEnumerable<QuestionGetManyResponse> GetQuestionsWithAnswers();
         IEnumerable<QuestionGetManyResponse> GetQuestionsBySearch(string search);
         IEnumerable<QuestionGetManyResponse> GetUnansweredQuestions();

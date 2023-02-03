@@ -37,12 +37,12 @@ namespace qAndA.Data
             }   
         }
 
-        public IEnumerable<QuestionGetManyResponse> GetQuestions()
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsAsync()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
-                return connection.Query<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany");
+                await connection.OpenAsync();
+                return await connection.QueryAsync<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany");
             }
         }
 
