@@ -1,5 +1,6 @@
 using System.Reflection;
 using DbUp;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using qAndA.Data;
 using qAndA.Data.Models;
 
@@ -31,7 +32,18 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IQuestionCache, QuestionCache>();
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 
-
+// Jwt-Based Authentication middleware
+builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =
+                  JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =
+                  JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = builder.Configuration["Auth0:Authority"];
+                options.Audience = builder.Configuration["Auth0:Audience"];
+            });
 
 var app = builder.Build();
 
@@ -47,7 +59,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

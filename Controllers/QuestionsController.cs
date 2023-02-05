@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using qAndA.Data;
 using qAndA.Data.Models;
@@ -46,6 +47,7 @@ namespace qAndA.Controllers
             return question;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest _question){
             var question = _dataRepository.PostQuestion(new QuestionPostFullRequest{
@@ -58,6 +60,7 @@ namespace qAndA.Controllers
             return CreatedAtAction(nameof(GetQuestion),new{questionId = question.QuestionId},question);
         }
 
+        [Authorize]
         [HttpPut("{questionId}")]
         public ActionResult<QuestionGetSingleResponse> PutQuestion(int questionId, QuestionPutRequest _question){
             var question = _dataRepository.GetQuestion(questionId);
@@ -70,6 +73,7 @@ namespace qAndA.Controllers
             return _dataRepository.PutQuestion(questionId, _question);
         }
 
+        [Authorize]
         [HttpDelete("{questionId}")]
         public ActionResult DeleteQuestion(int questionId){
             var exists = _dataRepository.QuestionExists(questionId);
@@ -81,6 +85,7 @@ namespace qAndA.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPost("{questionId}/answer")]
         public ActionResult<AnswerGetResponse> PostAnswer(int questionId, AnswerPostRequest _answer){
             var question = _dataRepository.QuestionExists(questionId);

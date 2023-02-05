@@ -9,6 +9,7 @@
       "qAndA/1.0.0": {
         "dependencies": {
           "Dapper": "2.0.123",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.2",
           "Microsoft.Data.SqlClient": "5.1.0",
           "dbup": "5.0.8"
         },
@@ -85,6 +86,17 @@
           "lib/net6.0/dbup-sqlserver.dll": {
             "assemblyVersion": "5.0.8.0",
             "fileVersion": "5.0.8.0"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.JwtBearer/7.0.2": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.24.0"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "assemblyVersion": "7.0.2.0",
+            "fileVersion": "7.0.222.60606"
           }
         }
       },
@@ -1383,6 +1395,13 @@
       "sha512": "sha512-b954l5Zgj9qgHtm16SLq2qGLJ0gIZtrWdh6JHoUsCLMHYW+0K2Oevabquw447At4U6X2t4CNuy7ZLHYf/Z/8yg==",
       "path": "dbup-sqlserver/5.0.8",
       "hashPath": "dbup-sqlserver.5.0.8.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/7.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sErKh1ZM3Ye1Lib8aWjexf1M5Ne0wptmR8Rr2p/7w1bXyi0kSHnYsVjdEsZGKHE12wNu+g3Zu6TLsKAVEyGYNw==",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/7.0.2",
+      "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.7.0.2.nupkg.sha512"
     },
     "Microsoft.Azure.Services.AppAuthentication/1.6.2": {
       "type": "package",

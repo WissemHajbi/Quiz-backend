@@ -69,3 +69,4 @@ C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\dbup-cor
 C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\dbup-sqlserver.dll
 C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\Microsoft.Azure.Services.AppAuthentication.dll
 C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+C:\Users\wisse\Asp.netReact_Training\test1\qAndA\qAndA\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

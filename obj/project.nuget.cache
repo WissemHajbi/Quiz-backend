@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "67XJ/w7/UJ3i7BoWTfeUGBxJMGnZFEoRKO2GwzjyBKDsmxupn0eCODW4a3tqi/Ev0lxTzZ3TFcahx0ZJmsywZg==",
+  "dgSpecHash": "ehEvbkLiETkIZRw8G5gqsIMU6zeNqTMBtGiyuPFNTGu6N9IH+TX9kh2CXh+T3ogksL1P2julkkDcrRBR55OPDA==",
   "success": true,
   "projectFilePath": "C:\\Users\\wisse\\Asp.netReact_Training\\test1\\qAndA\\qAndA\\qAndA.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\wisse\\.nuget\\packages\\dbup\\5.0.8\\dbup.5.0.8.nupkg.sha512",
     "C:\\Users\\wisse\\.nuget\\packages\\dbup-core\\5.0.8\\dbup-core.5.0.8.nupkg.sha512",
     "C:\\Users\\wisse\\.nuget\\packages\\dbup-sqlserver\\5.0.8\\dbup-sqlserver.5.0.8.nupkg.sha512",
+    "C:\\Users\\wisse\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.2\\microsoft.aspnetcore.authentication.jwtbearer.7.0.2.nupkg.sha512",
     "C:\\Users\\wisse\\.nuget\\packages\\microsoft.azure.services.appauthentication\\1.6.2\\microsoft.azure.services.appauthentication.1.6.2.nupkg.sha512",
     "C:\\Users\\wisse\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\wisse\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
