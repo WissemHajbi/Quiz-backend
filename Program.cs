@@ -33,17 +33,21 @@ builder.Services.AddSingleton<IQuestionCache, QuestionCache>();
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 
 // Jwt-Based Authentication middleware
-builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme =
-                  JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme =
-                  JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = builder.Configuration["Auth0:Authority"];
-                options.Audience = builder.Configuration["Auth0:Audience"];
-            });
+
+builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthorization();
+
+// builder.Services.AddAuthentication(options =>
+//             {
+//                 options.DefaultAuthenticateScheme =
+//                   JwtBearerDefaults.AuthenticationScheme;
+//                 options.DefaultChallengeScheme =
+//                   JwtBearerDefaults.AuthenticationScheme;
+//             }).AddJwtBearer(options =>
+//             {
+//                 options.Authority = builder.Configuration["Auth0:Authority"];
+//                 options.Audience = builder.Configuration["Auth0:Audience"];
+//             });
 
 var app = builder.Build();
 
