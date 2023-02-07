@@ -1,6 +1,7 @@
 using System.Reflection;
 using DbUp;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using qAndA.Authorization;
 using qAndA.Data;
 using qAndA.Data.Models;
 
@@ -24,19 +25,11 @@ if(upgrader.IsUpgradeRequired()){
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// Scoped = generate one instance for the whole request
-// Transient = generate one instance each time it is requested 
-// Singleton = generate one instanec for the whole app
-
-// registering the DataRepository for dependency injection
-builder.Services.AddSingleton<IQuestionCache, QuestionCache>();
-builder.Services.AddScoped<IDataRepository, DataRepository>();
 
 // Jwt-Based Authentication middleware
 
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddAuthorization();
-
 // builder.Services.AddAuthentication(options =>
 //             {
 //                 options.DefaultAuthenticateScheme =
@@ -48,6 +41,27 @@ builder.Services.AddAuthorization();
 //                 options.Authority = builder.Configuration["Auth0:Authority"];
 //                 options.Audience = builder.Configuration["Auth0:Audience"];
 //             });
+
+// Custom Authorizations
+builder.Services.AddHttpClient();
+builder.Services.AddAuthorization(
+    options => options.AddPolicy("MustBeQuestionAuthor", 
+        policy=> policy.Requirements.Add(new MustBeQuestionAuthorRequirements())
+        )
+    );
+
+
+// Registration for dependency injection :
+
+// Scoped = generate one instance for the whole request
+// Transient = generate one instance each time it is requested 
+// Singleton = generate one instanec for the whole app
+
+builder.Services.AddSingleton<IQuestionCache, QuestionCache>();
+builder.Services.AddScoped<IDataRepository, DataRepository>();
+builder.Services.AddScoped<IAuthorizationHandler,MustBeQuestionAuthorHandler>();
+builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 

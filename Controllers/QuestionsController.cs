@@ -60,7 +60,7 @@ namespace qAndA.Controllers
             return CreatedAtAction(nameof(GetQuestion),new{questionId = question.QuestionId},question);
         }
 
-        [Authorize]
+        [Authorize(Policy = "MustBeQuestionAuthor")]
         [HttpPut("{questionId}")]
         public ActionResult<QuestionGetSingleResponse> PutQuestion(int questionId, QuestionPutRequest _question){
             var question = _dataRepository.GetQuestion(questionId);
@@ -73,7 +73,7 @@ namespace qAndA.Controllers
             return _dataRepository.PutQuestion(questionId, _question);
         }
 
-        [Authorize]
+        [Authorize(Policy = "MustBeQuestionAuthor")]
         [HttpDelete("{questionId}")]
         public ActionResult DeleteQuestion(int questionId){
             var exists = _dataRepository.QuestionExists(questionId);
