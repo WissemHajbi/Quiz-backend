@@ -1,7 +1,10 @@
+using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using qAndA.Data;
 using qAndA.Data.Models;
+using QandA.Data.Models;
 
 namespace qAndA.Controllers 
 {
@@ -12,11 +15,36 @@ namespace qAndA.Controllers
     public class QuestionsController: ControllerBase {
         private readonly IDataRepository _dataRepository;
         private readonly IQuestionCache _cache;
-
-        public QuestionsController(IDataRepository DR, IQuestionCache QC)
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly string _auth0UserInfo;
+        public QuestionsController(IDataRepository DR, IQuestionCache QC, IHttpClientFactory CF, IConfiguration CONFIG)
         {
             _dataRepository = DR;
             _cache = QC;
+            _clientFactory = CF;
+            _auth0UserInfo = $"{CONFIG["Auth0:Authority"]}userinfo";
+        }
+
+        private async Task<string> GetUserName()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _auth0UserInfo);
+            request.Headers.Add("Authorization", Request.Headers["Authorization"].First());
+
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonContent = await response.Content.ReadAsStringAsync();
+                var user = JsonSerializer.Deserialize<User>(jsonContent, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });
+
+                return user.Name;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         [HttpGet]
@@ -49,12 +77,12 @@ namespace qAndA.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest _question){
+        public async ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest _question){
             var question = _dataRepository.PostQuestion(new QuestionPostFullRequest{
                 Title = _question.Title,
                 Content = _question.Content,
-                UserId = "1",
-                Username = "wissem",
+                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                Username = await GetUserName(),
                 Created = DateTime.UtcNow,
             });
             return CreatedAtAction(nameof(GetQuestion),new{questionId = question.QuestionId},question);
@@ -87,7 +115,7 @@ namespace qAndA.Controllers
 
         [Authorize]
         [HttpPost("{questionId}/answer")]
-        public ActionResult<AnswerGetResponse> PostAnswer(int questionId, AnswerPostRequest _answer){
+        public async Task<ActionResult<AnswerGetResponse>> PostAnswer(int questionId, AnswerPostRequest _answer){
             var question = _dataRepository.QuestionExists(questionId);
             if(!question) {
                 return NotFound();
@@ -97,8 +125,8 @@ namespace qAndA.Controllers
                 new AnswerPostFullRequest{
                     QuestionId = questionId,
                     Content = _answer.Content,
-                    UserId = "1",
-                    Username = "wissem",
+                    UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                    Username = await GetUserName(),
                     Created = DateTime.UtcNow,
                 }
             );
