@@ -62,6 +62,8 @@ builder.Services.AddScoped<IDataRepository, DataRepository>();
 builder.Services.AddScoped<IAuthorizationHandler,MustBeQuestionAuthorHandler>();
 builder.Services.AddHttpContextAccessor();
 
+// Cores
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", build => build.AllowAnyMethod().AllowAnyHeader().WithOrigins(builder.Configuration["Frontend"])));
 
 var app = builder.Build();
 
@@ -77,6 +79,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

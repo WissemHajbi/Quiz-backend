@@ -77,7 +77,7 @@ namespace qAndA.Controllers
 
         [Authorize]
         [HttpPost]
-        public async ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest _question){
+        public async Task<ActionResult<QuestionGetSingleResponse>> PostQuestion(QuestionPostRequest _question){
             var question = _dataRepository.PostQuestion(new QuestionPostFullRequest{
                 Title = _question.Title,
                 Content = _question.Content,
@@ -113,7 +113,7 @@ namespace qAndA.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        [Authorize] 
         [HttpPost("{questionId}/answer")]
         public async Task<ActionResult<AnswerGetResponse>> PostAnswer(int questionId, AnswerPostRequest _answer){
             var question = _dataRepository.QuestionExists(questionId);
