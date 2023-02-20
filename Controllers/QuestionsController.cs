@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using qAndA.Data;
 using qAndA.Data.Models;
-using QandA.Data.Models;
 
 namespace qAndA.Controllers 
 {
@@ -22,7 +21,7 @@ namespace qAndA.Controllers
             _dataRepository = DR;
             _cache = QC;
             _clientFactory = CF;
-            _auth0UserInfo = $"{CONFIG["Auth0:Authority"]}userinfo";
+            _auth0UserInfo = $"{CONFIG["Authentication:Schemes:Bearer:Authority"]}/userinfo";
         }
 
         private async Task<string> GetUserName()
@@ -37,9 +36,8 @@ namespace qAndA.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var jsonContent = await response.Content.ReadAsStringAsync();
-                var user = JsonSerializer.Deserialize<User>(jsonContent, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });
-
-                return user.Name;
+                var user = JsonSerializer.Deserialize<MyUser>(jsonContent);
+                return user.nickname;
             }
             else
             {

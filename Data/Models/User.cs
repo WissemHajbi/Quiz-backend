@@ -1,7 +1,6 @@
-namespace QandA.Data.Models
-{
-    public class User
+namespace qAndA.Data.Models
+{    public class MyUser
     {
-        public string Name { get; set; }
+        public string nickname { get; set; }
     }
 }
